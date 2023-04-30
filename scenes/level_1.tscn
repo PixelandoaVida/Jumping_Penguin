@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/big_slime.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/small_slime.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/spikes.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/spaw_slimes-1.gd" type="Script" id=5]
+
+[node name="level_1" type="Node2D"]
+
+[node name="spikes" type="Node" parent="."]
+
+[node name="spikes-1" parent="spikes" instance=ExtResource( 4 )]
+position = Vector2( 124, 95 )
+
+[node name="spikes-2" parent="spikes" instance=ExtResource( 4 )]
+position = Vector2( 318, 41 )
+
+[node name="spikes-3" parent="spikes" instance=ExtResource( 4 )]
+position = Vector2( 308, 253 )
+
+[node name="spikes-4" parent="spikes" instance=ExtResource( 4 )]
+position = Vector2( 432, 120 )
+
+[node name="player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 256, 150 )
+collision_mask = 2
+speed = 3500
+
+[node name="spaw_slimes-1" type="Node" parent="."]
+script = ExtResource( 5 )
+slimes_mim = 3
+slimes_max = 5
+slimes = [ ExtResource( 2 ), ExtResource( 3 ) ]
+
+[node name="position" type="Position2D" parent="spaw_slimes-1"]
+position = Vector2( 28, 159 )
+__meta__ = {
+"_gizmo_extents_": 20.0
+}
+
+[node name="timer" type="Timer" parent="spaw_slimes-1"]
+wait_time = 10.0
+
+[node name="slimes_group" type="Node" parent="spaw_slimes-1"]
+
+[connection signal="timeout" from="spaw_slimes-1/timer" to="spaw_slimes-1" method="_on_timer_timeout"]

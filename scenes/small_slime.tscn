@@ -1,0 +1,47 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://assents/Slime pequeno/Slime pequeno (1).png" type="Texture" id=1]
+[ext_resource path="res://assents/Slime pequeno/Slime pequeno (2).png" type="Texture" id=2]
+[ext_resource path="res://assents/Slime pequeno/Slime pequeno (3).png" type="Texture" id=3]
+[ext_resource path="res://assents/Slime pequeno/Slime pequeno (4).png" type="Texture" id=4]
+[ext_resource path="res://assents/Slime pequeno/Slime pequeno (5).png" type="Texture" id=5]
+[ext_resource path="res://assents/Slime pequeno/Slime pequeno (6).png" type="Texture" id=6]
+[ext_resource path="res://scripts/slime.gd" type="Script" id=7]
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "move",
+"speed": 10.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 7.5, 5.5 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 8.5, 6.5 )
+
+[node name="small_slime" type="KinematicBody2D"]
+scale = Vector2( 1.5, 1.5 )
+collision_layer = 2
+script = ExtResource( 7 )
+
+[node name="sprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 3 )
+animation = "move"
+
+[node name="shape" type="CollisionShape2D" parent="."]
+position = Vector2( 0.5, 3.5 )
+shape = SubResource( 2 )
+
+[node name="hit_box" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 5
+
+[node name="shape" type="CollisionShape2D" parent="hit_box"]
+position = Vector2( 0.5, 3.5 )
+shape = SubResource( 4 )
+
+[connection signal="area_entered" from="hit_box" to="." method="_on_hit_box_area_entered"]
+[connection signal="body_entered" from="hit_box" to="." method="_on_hit_box_body_entered"]
